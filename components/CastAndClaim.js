@@ -20,12 +20,12 @@ const CastAndClaim = () => {
         const apiKey = process.env.NEXT_PUBLIC_NEYNAR_API_KEY;
 
         // Ambil FID user
-        const userRes = await fetch(`https://api.neynar.com/v2/farcaster/user-by-username?username=${username}`, {
-          headers: {
-            'accept': 'application/json',
-            'api_key': apiKey,
-          },
-        });
+        const res = await fetch("https://api.neynar.com/v2/farcaster/casts?fid=225000&limit=1", {
+  headers: {
+    accept: "application/json",
+    api_key: "719EBBE1-BF6D-45F4-AD31-96B2BD437494",
+  },
+});
         const userData = await userRes.json();
         const fidValue = userData.result.user.fid;
         setFid(fidValue);
