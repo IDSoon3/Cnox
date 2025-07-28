@@ -1,0 +1,5 @@
+Cnox/
+├── components/
+│   └── CastAndClaim.js  ✅ ← FILE INI YANG PERLU DITAMBAHKAN
+├── pages/
+│   └── index.js
