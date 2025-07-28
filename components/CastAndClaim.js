@@ -7,30 +7,27 @@ const CastAndClaim = () => {
   useEffect(() => {
     const fetchCast = async () => {
       try {
-        const API_KEY = process.env.NEXT_PUBLIC_NEYNAR_API_KEY;
+        const apiKey = process.env.NEXT_PUBLIC_NEYNAR_API_KEY;
 
-        // 1. Dapatkan FID dari username
-        const resUser = await fetch(`https://api.neynar.com/v2/farcaster/user-by-username?username=idsoon`, {
+        // Ambil FID user @idsoon
+        const userRes = await fetch(`https://api.neynar.com/v2/farcaster/user-by-username?username=idsoon`, {
           headers: {
             'accept': 'application/json',
-            'api_key': API_KEY
-          }
+            'api_key': apiKey,
+          },
         });
-
-        const userData = await resUser.json();
+        const userData = await userRes.json();
         const fid = userData.result.user.fid;
 
-        // 2. Ambil cast terbaru
-        const resCast = await fetch(`https://api.neynar.com/v2/farcaster/casts?fid=${fid}&limit=1`, {
+        // Ambil cast terbaru
+        const castRes = await fetch(`https://api.neynar.com/v2/farcaster/casts?fid=${fid}&limit=1`, {
           headers: {
             'accept': 'application/json',
-            'api_key': API_KEY
-          }
+            'api_key': apiKey,
+          },
         });
-
-        const castData = await resCast.json();
+        const castData = await castRes.json();
         const latestCast = castData.result.casts[0];
-
         setCast(latestCast);
       } catch (error) {
         console.error('Error fetching cast:', error);
