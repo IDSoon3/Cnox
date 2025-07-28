@@ -1,39 +1,15 @@
-import Head from "next/head";
-import styles from "../styles/Home.module.css";
+import dynamic from "next/dynamic";
 
-export default function Home(props) {
-  const cast = props.cast;
+// Import secara dinamis untuk menghindari SSR issue
+const CastAndClaim = dynamic(() => import("../components/CastAndClaim"), {
+  ssr: false,
+});
 
+export default function Home() {
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Cnox</title>
-        <meta name="description" content="Airdrop claiming interface" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1>Welcome to Cnox</h1>
-        <p>Airdrop claiming interface using Supabase and Ethers.js</p>
-
-        <h2>Latest Cast by @{cast.author.username}:</h2>
-        <p>{cast.text}</p>
-      </main>
-    </div>
+    <main style={{ padding: "2rem" }}>
+      <h1>Cnox Farcaster Airdrop</h1>
+      <CastAndClaim />
+    </main>
   );
-}
-
-export async function getServerSideProps() {
-  const cast = {
-    author: {
-      username: "idsoon",
-    },
-    text: "Ini dummy cast Farcaster 🚀",
-  };
-
-  return {
-    props: {
-      cast,
-    },
-  };
 }
