@@ -1,0 +1,11 @@
+import CastAndClaim from '../components/CastAndClaim';
+import ClaimList from '../components/ClaimList';
+
+export default function Home() {
+  return (
+    <main style={{ padding: '2rem' }}>
+      <CastAndClaim />
+      <ClaimList />
+    </main>
+  );
+}
