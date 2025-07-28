@@ -1,8 +1,5 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { NeynarAPIClient } from '@neynar/nodejs-sdk';
-
-const client = new NeynarAPIClient('719EBBE1-BF6D-45F4-AD31-96B2BD437494');
 
 const CastAndClaim = () => {
   const [cast, setCast] = useState(null);
@@ -10,11 +7,30 @@ const CastAndClaim = () => {
   useEffect(() => {
     const fetchCast = async () => {
       try {
-        const result = await client.lookUpUserByUsername('idsoon');
-        const fid = result.result.user.fid;
+        const API_KEY = process.env.NEXT_PUBLIC_NEYNAR_API_KEY;
 
-        const casts = await client.fetchCasts(fid, { limit: 1 });
-        const latestCast = casts.result.casts[0];
+        // 1. Dapatkan FID dari username
+        const resUser = await fetch(`https://api.neynar.com/v2/farcaster/user-by-username?username=idsoon`, {
+          headers: {
+            'accept': 'application/json',
+            'api_key': API_KEY
+          }
+        });
+
+        const userData = await resUser.json();
+        const fid = userData.result.user.fid;
+
+        // 2. Ambil cast terbaru
+        const resCast = await fetch(`https://api.neynar.com/v2/farcaster/casts?fid=${fid}&limit=1`, {
+          headers: {
+            'accept': 'application/json',
+            'api_key': API_KEY
+          }
+        });
+
+        const castData = await resCast.json();
+        const latestCast = castData.result.casts[0];
+
         setCast(latestCast);
       } catch (error) {
         console.error('Error fetching cast:', error);
